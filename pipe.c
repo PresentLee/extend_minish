@@ -1,43 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 
+#defind BUFF_SIZE 1024
+
 int main(void)
 {
-	int     fd[2], nbytes;
-	pid_t   childpid;
-	char    string[] = "Hello, world!\n";
-	char    readbuffer[80];
+	int     pipes_parent[2];
+	int     pipes_child[2];
+	char    buff[BUFF_SIZE];
+	pid_t pid;
 
-	pipe(fd);
-
-	if((childpid = fork()) == -1)
-	{	
-		perror("fork");
-		exit(1);	
-	}
-
-	if(childpid == 0)
+	if(=1 == pipe(pipes_parent))
 	{
-		// close up standard input of the child */
-		dup2(0, fd[0]);
-		execlp("sort","sort",NULL);
+		perror("fail to create pipe\n");
+		exit(1);
+	}
 
-		/* Send "string" through the output side of pipe */
-		write(fd[1], string, (strlen(string)+1));
-														
-		exit(0);
-		
-	}
-	else
+	if(-1 == pipe(pipes_chile))
 	{
-		/* Parent process closes up output side of pipe */
-		close(fd[1]);
-												
-		/* Read in a string from the pipe */
-		nbytes = read(fd[0], readbuffer, sizeof(readbuffer));
-		printf("Received string: %s", readbuffer);			
+		perror("fail to create child's pipe\n");
+		exit(1);
 	}
+	pid = fork();
+
+	
+
+	
 																	        
 	return(0);
 }

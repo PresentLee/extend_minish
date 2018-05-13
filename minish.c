@@ -3,6 +3,13 @@
 #include <unistd.h>
 #include <dirent.h>
 
+/* 
+   1. get command from command prompt
+   2. find env path of command file from /bin
+   3. fork this process
+   4. child exec the command
+   5. print the result (at terminal)
+*/
 
 int main(int argc, char **argv, char **envp)
 {
